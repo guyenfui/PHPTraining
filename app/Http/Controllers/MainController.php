@@ -20,6 +20,10 @@ class MainController extends Controller
         $data = request()->validate([
             'name' => 'required',
             'email' => 'required|email',
+            'phone' => 'required',
+            'address' => 'required',
+            'type' => 'required',
+            'gender' => 'required',
             'message' => 'required'
         ]);
 

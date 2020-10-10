@@ -71,7 +71,7 @@
                 {{ csrf_field() }}
                 <div class="contact-form">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="fname">名前</label>
+                        <label class="control-label col-sm-2" for="fname">名前(必須)</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="name" placeholder="名前（ふりがな）" name="name">
                             <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="phone">電話番号</label>
+                        <label class="control-label col-sm-2" for="phone">電話番号(必須)</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" id="phone" placeholder="電話番号（ハイフンなし）" name="phone">
                             <span class="text-danger">{{ $errors->first('phone') }}</span>
@@ -99,25 +99,27 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="type">連絡方法</label>
+                        <label class="control-label col-sm-2" for="type">連絡方法(必須)</label>
                         <div class="col-sm-6">
-                            <div class="checkbox" style="display: inline-block;"><label style="font-size: smaller"><input id="tel" type="checkbox">電話番号</label></div>
-                            <div class="checkbox" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="mail" type="checkbox">メールアドレス</label></div>
+                            <div class="checkbox" style="display: inline-block;"><label style="font-size: smaller"><input id="tel" type="checkbox" name="type" value="tel">電話番号</label></div>
+                            <div class="checkbox" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="mail" type="checkbox" name="type" value="mail">メールアドレス</label></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="gender">性別</label>
+                        <label class="control-label col-sm-2" for="gender">性別(必須)</label>
                         <div class="col-sm-5">
-                            <div class="radio" style="display: inline-block;"><label style="font-size: smaller"><input id="male" type="radio" checked>男</label></div>
-                            <div class="radio" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="female" type="radio">女</label></div>
+                            <input type="radio" name="gender" value="male" checked>男
+                            <input type="radio" name="gender" value="female">女
+{{--                            <div class="radio" style="display: inline-block;"><label style="font-size: smaller"><input id="male" type="radio" checked>男</label></div>--}}
+{{--                            <div class="radio" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="female" type="radio">女</label></div>--}}
                             <span class="text-danger">{{ $errors->first('gender') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="content">内容</label>
+                        <label class="control-label col-sm-2" for="message">内容</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="5" name="content" id="content"></textarea>
-                            <span class="text-danger">{{ $errors->first('content') }}</span>
+                            <textarea class="form-control" rows="5" name="message" id="message"></textarea>
+                            <span class="text-danger">{{ $errors->first('message') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
