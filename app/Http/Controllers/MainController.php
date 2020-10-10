@@ -5,13 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
+use App\Contact;
+
+use Redirect, Response;
 
 class MainController extends Controller
 {
+    function index1()
+    {
+        return view('welcome');
+    }
+    function store(Request $request)
+    {
+        $data = request()->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required'
+        ]);
+
+        $check = Contact::create($data);
+
+        return Redirect::to("welcome")->withSuccess('Great! Form successfully submit with validation.');
+    }
+
     function index()
     {
         return view('login');
     }
+
     function checklogin(Request $request)
     {
         $this->validate($request, [
@@ -45,7 +66,6 @@ class MainController extends Controller
         Auth::logout();
         return redirect('main');
     }
-
 }
 
 ?>
