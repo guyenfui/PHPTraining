@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Login System in Laravel</title>
+    <title>管理サイト</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -16,10 +16,10 @@
 <body>
 <br />
 <div class="container box">
-    <h3 align="center">Simple Login System in Laravel</h3><br />
+    <h3 align="center">ログイン</h3><br />
 
     @if(isset(Auth::user()->email))
-        <script>window.location="/main/successlogin";</script>
+        <script>window.location="/login/successlogin";</script>
     @endif
 
     @if ($message = Session::get('error'))
@@ -39,18 +39,18 @@
         </div>
     @endif
 
-    <form method="post" action="{{ url('/main/checklogin') }}">
+    <form method="post" action="{{ url('/login/checklogin') }}">
         {{ csrf_field() }}
         <div class="form-group">
-            <label>Enter Email</label>
+            <label>メールアドレス</label>
             <input type="email" name="email" class="form-control" />
         </div>
         <div class="form-group">
-            <label>Enter Password</label>
+            <label>パスワード</label>
             <input type="password" name="password" class="form-control" />
         </div>
         <div class="form-group">
-            <input type="submit" name="login" class="btn btn-primary" value="Login" />
+            <input type="submit" name="login" class="btn btn-primary" value="ログイン" />
         </div>
     </form>
 </div>

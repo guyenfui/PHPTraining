@@ -78,14 +78,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4" for="email">メールアドレス</label>
+                        <label class="control-label col-sm-4" for="email">メールアドレス(必須)</label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" id="email" placeholder="メールアドレス" name="email">
                             <span class="text-danger">{{ $errors->first('email') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="phone">電話番号(必須)</label>
+                        <label class="control-label col-sm-4" for="phone">電話番号(必須)</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" id="phone" placeholder="電話番号（ハイフンなし）" name="phone">
                             <span class="text-danger">{{ $errors->first('phone') }}</span>
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="type">連絡方法(必須)</label>
+                        <label class="control-label col-sm-4" for="type">連絡方法(必須)</label>
                         <div class="col-sm-6">
                             <div class="checkbox" style="display: inline-block;"><label style="font-size: smaller"><input id="tel" type="checkbox" name="type" value="tel">電話番号</label></div>
                             <div class="checkbox" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="mail" type="checkbox" name="type" value="mail">メールアドレス</label></div>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="message">内容</label>
+                        <label class="control-label col-sm-2" for="message">内容(必須)</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="5" name="message" id="message"></textarea>
                             <span class="text-danger">{{ $errors->first('message') }}</span>

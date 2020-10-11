@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Validator;
 use Auth;
 use App\Contact;
+use App\Mail\DemoEmail;
+use Illuminate\Support\Facades\Mail;
 
 use Redirect, Response;
 
@@ -51,7 +53,7 @@ class MainController extends Controller
 
         if(Auth::attempt($user_data))
         {
-            return redirect('main/successlogin');
+            return redirect('login/successlogin');
         }
         else
         {
@@ -62,14 +64,38 @@ class MainController extends Controller
 
     function successlogin()
     {
-        return view('successlogin');
+        $contacts = Contact::all();
+        return view('successlogin',compact('contacts'));
     }
 
     function logout()
     {
         Auth::logout();
-        return redirect('main');
+        return redirect('login');
     }
+    public function send()
+    {
+        $objDemo = new \stdClass();
+        $objDemo->demo_one = 'Demo One Value';
+        $objDemo->demo_two = 'Demo Two Value';
+        $objDemo->sender = 'SenderUserName';
+        $objDemo->receiver = 'ReceiverUserName';
+
+        Mail::to("huynm1103@gmail.com")->send(new DemoEmail($objDemo));
+    }
+
+//    public function storeContact(Request $request){
+//// validation goes here
+//        $contact = Contact::create($request->all());
+//        return $contact;
+//    }
+//    public function getAllContacts(){
+//        $contacts = Contact::all();
+////if you want to get contacts on where condition use below code
+////$contacts = Contact::Where('tenant_id', "1")->get();
+//        return view('listContact', compact('contacts'));
+//    }
+
 }
 
 ?>
