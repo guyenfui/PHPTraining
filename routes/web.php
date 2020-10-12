@@ -34,3 +34,8 @@ Route::post('/sendemail/send', 'SendEmailController@send');
 //show contact
 Route::post('/CreateContact', 'ContactController@storeContact');
 Route::get('/getContacts', 'ContactController@getAllContacts');
+
+//export
+
+Route::get('/login/successlogin/excel', 'ExportController@excel')->name('export.excel');
+Route::get('/login/successlogin/csv', 'ExportController@csv')->name('export.csv');

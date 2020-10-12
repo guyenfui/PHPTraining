@@ -20,16 +20,15 @@ class MainController extends Controller
     function store(Request $request)
     {
         $data = request()->validate([
-            'name' => 'required',
+            'name' => 'required|regex:/^[ぁ-んァ-ン]+$/',
             'email' => 'required|email',
-            'phone' => 'required',
-            'address' => 'required',
-            'type' => 'required',
+            'phone' => 'required|numeric',
+//            'type' => 'null',
             'gender' => 'required',
             'message' => 'required'
         ]);
 
-        $check = Contact::create($data);
+        Contact::create($data);
 
         return Redirect::to("welcome")->withSuccess('Great! Form successfully submit with validation.');
     }
