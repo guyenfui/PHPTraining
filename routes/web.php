@@ -26,10 +26,10 @@ Route::get('login/successlogin', 'MainController@successlogin');
 //Route::get('login/admin', 'MainController@successlogin');
 Route::get('login/logout', 'MainController@logout');
 
-// Email related routes
-
-Route::get('/sendemail', 'SendEmailController@index');
-Route::post('/sendemail/send', 'SendEmailController@send');
+//// Email related routes
+//
+//Route::get('/sendemail', 'SendEmailController@index');
+//Route::post('/sendemail/send', 'SendEmailController@send');
 
 //show contact
 Route::post('/CreateContact', 'ContactController@storeContact');
@@ -39,3 +39,7 @@ Route::get('/getContacts', 'ContactController@getAllContacts');
 
 Route::get('/login/successlogin/excel', 'ExportController@excel')->name('export.excel');
 Route::get('/login/successlogin/csv', 'ExportController@csv')->name('export.csv');
+
+// Email related routes
+//Route::get('mail', 'SendEmailController@index');
+//Route::post('postMail', 'SendEmailController@post');

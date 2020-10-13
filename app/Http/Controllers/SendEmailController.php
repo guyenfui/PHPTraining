@@ -6,28 +6,45 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
 
+
 class SendEmailController extends Controller
 {
-    function index()
+    public function index()
     {
-        return view('send_email');
+        return view('mail');
+//        return view('welcome');
     }
-    function send(Request $request)
+    public function post(Request $req)
     {
-        $this->validate($request, [
-            'name'     =>  'required',
+        $req->validate([
             'email'  =>  'required|email',
+//            'subject'     =>  'required',
             'message' =>  'required'
         ]);
 
-        $data = array(
-            'name'      =>  $request->name,
-            'message'   =>   $request->message
-        );
+        $data = [
+            'email'   =>   $req->email,
+            'subject'      =>  $req->subject,
+            'bodyMessage'   =>   $req->message,
+        ];
 
-        Mail::to('web-tutorial@programmer.net')->send(new SendMail($data));
-        return back()->with('success', 'Thanks for contacting us!');
+        Mail::send('mail.mail',$data,function($message) use ($data){
+            $message->from('huynm1103@gmail.com','larva');
+//            $message->to('email');
+//            $message->subject('subject');
+            $message->to($data['email']);
+            $message->subject('Mail from Absolute');
 
+        });
+        Mail::send('mail.mailadmin',$data,function($message) use ($data){
+            $message->from('huynm1103@gmail.com','larva');
+//            $message->to('email');
+//            $message->subject('subject');
+            $message->to('huynm1103@gmail.com');
+            $message->subject('Mail from Absolute');
+
+        });
+        return redirect()->back();
     }
 }
 

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Validator;
 use Auth;
 use App\Contact;
-use App\Mail\DemoEmail;
 use Illuminate\Support\Facades\Mail;
 
 use Redirect, Response;
@@ -29,6 +28,7 @@ class MainController extends Controller
         ]);
 
         Contact::create($data);
+        $this->send($request);
 
         return Redirect::to("welcome")->withSuccess('Great! Form successfully submit with validation.');
     }
@@ -72,15 +72,37 @@ class MainController extends Controller
         Auth::logout();
         return redirect('login');
     }
-    public function send()
+    function send(Request $req)
     {
-        $objDemo = new \stdClass();
-        $objDemo->demo_one = 'Demo One Value';
-        $objDemo->demo_two = 'Demo Two Value';
-        $objDemo->sender = 'SenderUserName';
-        $objDemo->receiver = 'ReceiverUserName';
+        $req->validate([
+            'email'  =>  'required|email',
+//            'subject'     =>  'required',
+            'message' =>  'required'
+        ]);
 
-        Mail::to("huynm1103@gmail.com")->send(new DemoEmail($objDemo));
+        $data = [
+            'email'   =>   $req->email,
+            'subject'      =>  $req->subject,
+            'bodyMessage'   =>   $req->message,
+        ];
+
+        Mail::send('mail.mail',$data,function($message) use ($data){
+            $message->from('huynm1103@gmail.com','larva');
+//            $message->to('email');
+//            $message->subject('subject');
+            $message->to($data['email']);
+            $message->subject('Mail from Absolute');
+
+        });
+        Mail::send('mail.mailadmin',$data,function($message) use ($data){
+            $message->from('huynm1103@gmail.com','larva');
+//            $message->to('email');
+//            $message->subject('subject');
+            $message->to('huynm1103@gmail.com');
+            $message->subject('Mail from Absolute');
+
+        });
+//        return redirect()->back();
     }
 
 //    public function storeContact(Request $request){

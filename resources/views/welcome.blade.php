@@ -67,17 +67,20 @@
                 </div>
                 <br>
             @endif
-            <form action="{{ url('welcome') }}" method="post" accept-charset="utf-8">
+            <form action="{{ url('welcome') }}"
+                  action="/postMail"
+                  method="post" accept-charset="utf-8">
                 {{ csrf_field() }}
                 <div class="contact-form">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="fname">名前(必須)</label>
+                        <label class="control-label col-sm-2" for="fname">名前(必須)test</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="name" placeholder="名前（ふりがな）" name="name">
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" >
+
                         <label class="control-label col-sm-4" for="email">メールアドレス(必須)</label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" id="email" placeholder="メールアドレス" name="email">
@@ -94,7 +97,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="address">住所</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address" placeholder="住所" name="address">
+                            <input type="text" class="form-control" id="address" placeholder="住所" name="subject">
                             <span class="text-danger">{{ $errors->first('address') }}</span>
                         </div>
                     </div>
@@ -124,7 +127,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">送信</button>
+{{--                            <button type="submit"name="send" class="btn btn-default">送信</button>--}}
+                            <input type="submit" name="send" class="btn btn-info" value="send message" />
                         </div>
                     </div>
                 </div>
