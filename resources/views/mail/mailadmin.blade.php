@@ -1,3 +1,3 @@
-<h3>this is message for admin</h3>
+<h3>新しいメッセージを受信しました。</h3>
 {{--<p>{{$bodyMessage}}</p>--}}
 <p>{{$bodyMessage}}</p>

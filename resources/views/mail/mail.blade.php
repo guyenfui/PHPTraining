@@ -1,3 +1,3 @@
-<h3>this is message for client</h3>
-{{--<p>{{$bodyMessage}}</p>--}}
+<h2>{{$name}}様</h2>
+<h3>送信したお問い合わせ内容は以下になります。</h3>
 <p>{{$bodyMessage}}</p>

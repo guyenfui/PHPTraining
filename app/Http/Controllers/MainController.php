@@ -12,9 +12,9 @@ use Redirect, Response;
 
 class MainController extends Controller
 {
-    function index1()
+    function form()
     {
-        return view('welcome');
+        return view('form');
     }
     function store(Request $request)
     {
@@ -24,13 +24,15 @@ class MainController extends Controller
             'phone' => 'required|numeric',
 //            'type' => 'null',
             'gender' => 'required',
-            'message' => 'required'
+            'message' => 'required|string|max:300'
         ]);
+
+        $data['type'] = (isset($_POST['type'])) ? implode(',', $_POST['type']) : NULL;
 
         Contact::create($data);
         $this->send($request);
 
-        return Redirect::to("welcome")->withSuccess('Great! Form successfully submit with validation.');
+        return Redirect::to("form")->withSuccess('ありがとうございます。お問い合わせを送信しました！');
     }
 
     function index()
@@ -52,19 +54,32 @@ class MainController extends Controller
 
         if(Auth::attempt($user_data))
         {
-            return redirect('login/successlogin');
+            return redirect('/manage');
         }
         else
         {
-            return back()->with('error', 'Wrong Login Details');
+            return back()->with('error', 'ログイン情報が正しくありません。');
         }
 
     }
 
-    function successlogin()
+    function manage()
     {
+//        dump()
+        if (!isset(Auth::user()->email)) {
+            return redirect('login');
+        }
         $contacts = Contact::all();
-        return view('successlogin',compact('contacts'));
+        foreach ($contacts as $contact) {
+            if ($contact['type'] == '1') {
+                $contact['type'] = '電話番号';
+            } elseif ($contact['type'] == '0') {
+                $contact['type'] = 'メールアドレス';
+            } elseif ($contact['type'] == '1,0') {
+                $contact['type'] = '電話番号、メールアドレス';
+            } else $contact['type'] = NULL;
+        }
+        return view('manage',compact('contacts'));
     }
 
     function logout()
@@ -72,51 +87,31 @@ class MainController extends Controller
         Auth::logout();
         return redirect('login');
     }
-    function send(Request $req)
-    {
+    function send(Request $req) {
         $req->validate([
             'email'  =>  'required|email',
-//            'subject'     =>  'required',
             'message' =>  'required'
         ]);
 
         $data = [
-            'email'   =>   $req->email,
-            'subject'      =>  $req->subject,
-            'bodyMessage'   =>   $req->message,
+            'email'       => $req->email,
+            'subject'     => $req->subject,
+            'name'        => $req->name,
+            'bodyMessage' => $req->message,
         ];
 
         Mail::send('mail.mail',$data,function($message) use ($data){
-            $message->from('huynm1103@gmail.com','larva');
-//            $message->to('email');
-//            $message->subject('subject');
+            $message->from('huynm1103@gmail.com','〇〇株式会社');
             $message->to($data['email']);
-            $message->subject('Mail from Absolute');
+            $message->subject('お問い合わせを送信しました。');
 
         });
         Mail::send('mail.mailadmin',$data,function($message) use ($data){
-            $message->from('huynm1103@gmail.com','larva');
-//            $message->to('email');
-//            $message->subject('subject');
+            $message->from('huynm1103@gmail.com','〇〇株式会社');
             $message->to('huynm1103@gmail.com');
-            $message->subject('Mail from Absolute');
-
+            $message->subject('お問い合わせを受信しました。');
         });
-//        return redirect()->back();
     }
-
-//    public function storeContact(Request $request){
-//// validation goes here
-//        $contact = Contact::create($request->all());
-//        return $contact;
-//    }
-//    public function getAllContacts(){
-//        $contacts = Contact::all();
-////if you want to get contacts on where condition use below code
-////$contacts = Contact::Where('tenant_id', "1")->get();
-//        return view('listContact', compact('contacts'));
-//    }
-
 }
 
 ?>
