@@ -138,9 +138,6 @@
                 <a href="{{ route('export.excel') }}" class="btn btn-success">エクセルでダウンロード</a>
                 <a href="{{ route('export.csv') }}" class="btn btn-success">CSVでダウンロード</a>
             </div>
-            <div align="center">
-                <p style="font-size: smaller">※エクセルファイルはUTF-8のエンコードで開いてください。</p>
-            </div>
 
             <!-- /.container-fluid -->
 

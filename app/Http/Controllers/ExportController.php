@@ -35,16 +35,18 @@ class ExportController extends Controller
                 '登録日時'   => $customer->created_at,
             );
         }
-        Excel::create('Customer Data', function($excel) use ($customer_array){
-            $excel->setTitle('Customer Data');
-            $excel->sheet('Customer Data', function($sheet) use ($customer_array){
+        ob_end_clean();
+        ob_start();
+        Excel::create('お問い合わせ履歴_'.date('Ymd'), function($excel) use ($customer_array){
+            $excel->setTitle('お問い合わせ履歴');
+            $excel->sheet('お問い合わせ履歴', function($sheet) use ($customer_array){
                 $sheet->fromArray($customer_array, null, 'A1', false, false);
             });
         })->download($type);
     }
 
     function excel() {
-        $this->export('xls');
+        $this->export('xlsx');
     }
 
     function csv() {
