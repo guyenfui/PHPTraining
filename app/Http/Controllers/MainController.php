@@ -22,11 +22,10 @@ class MainController extends Controller
             'name' => 'required|regex:/^[ぁ-んァ-ン]+$/',
             'email' => 'required|email',
             'phone' => 'required|numeric',
-//            'type' => 'null',
             'gender' => 'required',
             'message' => 'required|string|max:300'
         ]);
-
+        $data['address'] = (isset($_POST['address'])) ? $_POST['address'] : NULL;
         $data['type'] = (isset($_POST['type'])) ? implode(',', $_POST['type']) : NULL;
 
         Contact::create($data);
@@ -65,7 +64,6 @@ class MainController extends Controller
 
     function manage()
     {
-//        dump()
         if (!isset(Auth::user()->email)) {
             return redirect('login');
         }
@@ -90,7 +88,8 @@ class MainController extends Controller
     function send(Request $req) {
         $req->validate([
             'email'  =>  'required|email',
-            'message' =>  'required'
+            'message' =>  'required',
+
         ]);
 
         $data = [
@@ -98,18 +97,30 @@ class MainController extends Controller
             'subject'     => $req->subject,
             'name'        => $req->name,
             'bodyMessage' => $req->message,
+            'phone'       => $req->phone,
+            'address'     => $req->address,
+            'type'        => ($req->type == NULL) ? NULL : implode(',', $req->type),
+            'gender'      => $req->gender
         ];
+
+        if ($data['type'] == '1') {
+            $data['type'] = '電話番号';
+        } elseif ($data['type'] == '0') {
+            $data['type'] = 'メールアドレス';
+        } elseif ($data['type'] == '1,0') {
+            $data['type'] = '電話番号、メールアドレス';
+        } else $data['type'] = NULL;
 
         Mail::send('mail.mail',$data,function($message) use ($data){
             $message->from('otoiawase.test2010@gmail.com','〇〇株式会社');
             $message->to($data['email']);
-            $message->subject('お問い合わせを送信しました。');
+            $message->subject('〇〇株式会社　お問い合わせを送信完了の連絡');
 
         });
         Mail::send('mail.mailadmin',$data,function($message) use ($data){
             $message->from('otoiawase.test2010@gmail.com','〇〇株式会社');
             $message->to('otoiawase.test2010@gmail.com');
-            $message->subject('お問い合わせを受信しました。');
+            $message->subject('お問い合わせを受信完了の連絡');
         });
     }
 }

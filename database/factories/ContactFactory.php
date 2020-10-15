@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -14,12 +14,18 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\Contact::class, function (Faker $faker) {
+    $string = "キムラ タケウチ";
+    $len = mb_strlen($string);
+    $sploded = array();
+    while($len-- > 0) { $sploded[] = mb_substr($string, $len, 1); }
+    shuffle($sploded);
+
     return [
-        'name'    => $faker->name,
-        'email'    => $faker->unique()->safeEmail,
+        'name'    => join('', $sploded),
+        'email'    => $faker->email,
         'phone'    => $faker->phoneNumber,
         'address'    => $faker->address,
-        'type'    => '電話番号',
+        'type'    => rand(0,1),
         'gender'    => '男',
         'message'    => $faker->text,
     ];
