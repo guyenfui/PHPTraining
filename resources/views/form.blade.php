@@ -67,49 +67,51 @@
                 </div>
                 <br>
             @endif
-            <form action="{{ url('welcome') }}" method="post" accept-charset="utf-8">
+            <form action="{{ url('form') }}"
+                  method="post" accept-charset="utf-8">
                 {{ csrf_field() }}
                 <div class="contact-form">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="fname">名前(必須)</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" placeholder="名前（ふりがな）" name="name">
+                            <input type="text" class="form-control" id="name" placeholder="名前（ふりがな）" name="name" value="{{ old('name') }}">
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" >
+
                         <label class="control-label col-sm-4" for="email">メールアドレス(必須)</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email" placeholder="メールアドレス" name="email">
+                            <input type="email" class="form-control" id="email" placeholder="メールアドレス" name="email" value="{{ old('email') }}">
                             <span class="text-danger">{{ $errors->first('email') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-4" for="phone">電話番号(必須)</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="phone" placeholder="電話番号（ハイフンなし）" name="phone">
+                            <input type="text" class="form-control" id="phone" placeholder="電話番号（ハイフンなし）" name="phone" value="{{ old('phone') }}">
                             <span class="text-danger">{{ $errors->first('phone') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="address">住所</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address" placeholder="住所" name="address">
+                            <input type="text" class="form-control" id="address" placeholder="住所" name="address" value="{{ old('address') }}">
                             <span class="text-danger">{{ $errors->first('address') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-4" for="type">連絡方法(必須)</label>
                         <div class="col-sm-6">
-                            <div class="checkbox" style="display: inline-block;"><label style="font-size: smaller"><input id="tel" type="checkbox" name="type" value="tel">電話番号</label></div>
-                            <div class="checkbox" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="mail" type="checkbox" name="type" value="mail">メールアドレス</label></div>
+                            <div class="checkbox" style="display: inline-block;"><label style="font-size: smaller"><input id="tel" type="checkbox" name="type[]" value="1" @if( is_array(old('type')) && in_array(1, old('type'))) checked @endif >電話番号</label></div>
+                            <div class="checkbox" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="mail" type="checkbox" name="type[]" value="0" @if( is_array(old('type')) && in_array(0, old('type'))) checked @endif>メールアドレス</label></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="gender">性別(必須)</label>
                         <div class="col-sm-5">
-                            <input type="radio" name="gender" value="male" checked>男
-                            <input type="radio" name="gender" value="female">女
+                            <input type="radio" name="gender" value="男" checked>男
+                            <input type="radio" name="gender" value="女">女
 {{--                            <div class="radio" style="display: inline-block;"><label style="font-size: smaller"><input id="male" type="radio" checked>男</label></div>--}}
 {{--                            <div class="radio" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="female" type="radio">女</label></div>--}}
                             <span class="text-danger">{{ $errors->first('gender') }}</span>
@@ -118,13 +120,13 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="message">内容(必須)</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="5" name="message" id="message"></textarea>
+                            <textarea class="form-control" rows="5" name="message" id="message">{{ old('message') }}</textarea>
                             <span class="text-danger">{{ $errors->first('message') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">送信</button>
+                            <button type="submit"name="send" class="btn btn-default">送信</button>
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@
     <h3 align="center">ログイン</h3><br />
 
     @if(isset(Auth::user()->email))
-        <script>window.location="/login/successlogin";</script>
+        <script>window.location="/manage";</script>
     @endif
 
     @if ($message = Session::get('error'))

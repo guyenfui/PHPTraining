@@ -172,6 +172,11 @@
                 </div>
 
             </div>
+            <div align="center">
+                <a href="{{ route('export.excel') }}" class="btn btn-success">エクセルでダウンロード</a>
+                <a href="{{ route('export.csv') }}" class="btn btn-success">CSVでダウンロード</a>
+            </div>
+
             <!-- /.container-fluid -->
 
         </div>

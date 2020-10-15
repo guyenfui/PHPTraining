@@ -6,32 +6,33 @@ use Illuminate\Http\Request;
 use Validator;
 use Auth;
 use App\Contact;
-use App\Mail\DemoEmail;
 use Illuminate\Support\Facades\Mail;
 
 use Redirect, Response;
 
 class MainController extends Controller
 {
-    function index1()
+    function form()
     {
-        return view('welcome');
+        return view('form');
     }
     function store(Request $request)
     {
         $data = request()->validate([
-            'name' => 'required',
+            'name' => 'required|regex:/^[ぁ-んァ-ン]+$/',
             'email' => 'required|email',
-            'phone' => 'required',
-            'address' => 'required',
-            'type' => 'required',
+            'phone' => 'required|numeric',
+//            'type' => 'null',
             'gender' => 'required',
-            'message' => 'required'
+            'message' => 'required|string|max:300'
         ]);
 
-        $check = Contact::create($data);
+        $data['type'] = (isset($_POST['type'])) ? implode(',', $_POST['type']) : NULL;
 
-        return Redirect::to("welcome")->withSuccess('Great! Form successfully submit with validation.');
+        Contact::create($data);
+        $this->send($request);
+
+        return Redirect::to("form")->withSuccess('ありがとうございます。お問い合わせを送信しました！');
     }
 
     function index()
@@ -53,19 +54,32 @@ class MainController extends Controller
 
         if(Auth::attempt($user_data))
         {
-            return redirect('login/successlogin');
+            return redirect('/manage');
         }
         else
         {
-            return back()->with('error', 'Wrong Login Details');
+            return back()->with('error', 'ログイン情報が正しくありません。');
         }
 
     }
 
-    function successlogin()
+    function manage()
     {
+//        dump()
+        if (!isset(Auth::user()->email)) {
+            return redirect('login');
+        }
         $contacts = Contact::all();
-        return view('successlogin',compact('contacts'));
+        foreach ($contacts as $contact) {
+            if ($contact['type'] == '1') {
+                $contact['type'] = '電話番号';
+            } elseif ($contact['type'] == '0') {
+                $contact['type'] = 'メールアドレス';
+            } elseif ($contact['type'] == '1,0') {
+                $contact['type'] = '電話番号、メールアドレス';
+            } else $contact['type'] = NULL;
+        }
+        return view('manage',compact('contacts'));
     }
 
     function logout()
@@ -73,29 +87,31 @@ class MainController extends Controller
         Auth::logout();
         return redirect('login');
     }
-    public function send()
-    {
-        $objDemo = new \stdClass();
-        $objDemo->demo_one = 'Demo One Value';
-        $objDemo->demo_two = 'Demo Two Value';
-        $objDemo->sender = 'SenderUserName';
-        $objDemo->receiver = 'ReceiverUserName';
+    function send(Request $req) {
+        $req->validate([
+            'email'  =>  'required|email',
+            'message' =>  'required'
+        ]);
 
-        Mail::to("huynm1103@gmail.com")->send(new DemoEmail($objDemo));
+        $data = [
+            'email'       => $req->email,
+            'subject'     => $req->subject,
+            'name'        => $req->name,
+            'bodyMessage' => $req->message,
+        ];
+
+        Mail::send('mail.mail',$data,function($message) use ($data){
+            $message->from('otoiawase.test2010@gmail.com','〇〇株式会社');
+            $message->to($data['email']);
+            $message->subject('お問い合わせを送信しました。');
+
+        });
+        Mail::send('mail.mailadmin',$data,function($message) use ($data){
+            $message->from('otoiawase.test2010@gmail.com','〇〇株式会社');
+            $message->to('otoiawase.test2010@gmail.com');
+            $message->subject('お問い合わせを受信しました。');
+        });
     }
-
-//    public function storeContact(Request $request){
-//// validation goes here
-//        $contact = Contact::create($request->all());
-//        return $contact;
-//    }
-//    public function getAllContacts(){
-//        $contacts = Contact::all();
-////if you want to get contacts on where condition use below code
-////$contacts = Contact::Where('tenant_id', "1")->get();
-//        return view('listContact', compact('contacts'));
-//    }
-
 }
 
 ?>

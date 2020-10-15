@@ -12,25 +12,21 @@
 |
 */
 
+//form
 Route::get('/', function () {
-    return view('welcome');
+    return view('form');
 });
-Route::get('welcome', 'MainController@index1');
-Route::post('welcome', 'MainController@store');
+Route::get('form', 'MainController@form');
+Route::post('form', 'MainController@store');
 
-Route::get('/uploadfile', 'UploadfileController@index');
-Route::post('/uploadfile', 'UploadfileController@upload');
+//login
 Route::get('/login', 'MainController@index');
 Route::post('/login/checklogin', 'MainController@checklogin');
-Route::get('login/successlogin', 'MainController@successlogin');
-//Route::get('login/admin', 'MainController@successlogin');
+
+//admin
+Route::get('manage', 'MainController@manage');
 Route::get('login/logout', 'MainController@logout');
 
-// Email related routes
-
-Route::get('/sendemail', 'SendEmailController@index');
-Route::post('/sendemail/send', 'SendEmailController@send');
-
-//show contact
-Route::post('/CreateContact', 'ContactController@storeContact');
-Route::get('/getContacts', 'ContactController@getAllContacts');
+//export
+Route::get('/manage/excel', 'ExportController@excel')->name('export.excel');
+Route::get('/manage/csv', 'ExportController@csv')->name('export.csv');
