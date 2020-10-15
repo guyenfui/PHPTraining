@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Laravel Form Validation From Scratch</title>
+    <title>お問い合わせ</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -72,7 +72,7 @@
                 {{ csrf_field() }}
                 <div class="contact-form">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="fname">名前(必須)</label>
+                        <label class="control-label col-sm-4" for="fname">名前(ふりがな)　<b style="color: red">*</b></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="name" placeholder="名前（ふりがな）" name="name" value="{{ old('name') }}">
                             <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -80,14 +80,14 @@
                     </div>
                     <div class="form-group" >
 
-                        <label class="control-label col-sm-4" for="email">メールアドレス(必須)</label>
+                        <label class="control-label col-sm-4" for="email">メールアドレス<b style="color: red">*</b></label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" id="email" placeholder="メールアドレス" name="email" value="{{ old('email') }}">
                             <span class="text-danger">{{ $errors->first('email') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4" for="phone">電話番号(必須)</label>
+                        <label class="control-label col-sm-4" for="phone">電話番号（ハイフンなし）<b style="color: red">*</b></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="phone" placeholder="電話番号（ハイフンなし）" name="phone" value="{{ old('phone') }}">
                             <span class="text-danger">{{ $errors->first('phone') }}</span>
@@ -103,24 +103,27 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4" for="type">連絡方法</label>
                         <div class="col-sm-6">
-                            <div class="checkbox" style="display: inline-block;"><label style="font-size: smaller"><input id="tel" type="checkbox" name="type[]" value="1" @if( is_array(old('type')) && in_array(1, old('type'))) checked @endif >電話番号</label></div>
-                            <div class="checkbox" style="display: inline-block; float: right"><label style="font-size: smaller"><input id="mail" type="checkbox" name="type[]" value="0" @if( is_array(old('type')) && in_array(0, old('type'))) checked @endif>メールアドレス</label></div>
+                            <div class="checkbox" style="display: inline-block;"><p><input id="tel" type="checkbox" name="type[]" value="1" @if( is_array(old('type')) && in_array(1, old('type'))) checked @endif >電話番号</p></div>
+                            <div class="checkbox" style="display: inline-block; float: right"><p><input id="mail" type="checkbox" name="type[]" value="0" @if( is_array(old('type')) && in_array(0, old('type'))) checked @endif>メールアドレス</p></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="gender">性別(必須)</label>
+                        <label class="control-label col-sm-2" for="gender">性別 <b style="color: red">*</b></label>
                         <div class="col-sm-5">
-                            <input type="radio" name="gender" value="男" checked>男
-                            <input type="radio" name="gender" value="女">女
+                            <div class="radio" style="display: inline-block;"><p><input type="radio" name="gender" value="男" checked>男</p></div>
+                            <div class="radio" style="display: inline-block; float: right"><p><input type="radio" name="gender" value="女">女</p></div>
                             <span class="text-danger">{{ $errors->first('gender') }}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="message">本文(必須)</label>
+                        <label class="control-label col-sm-2" for="message">本文 <b style="color: red">*</b></label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="5" name="message" id="message">{{ old('message') }}</textarea>
                             <span class="text-danger">{{ $errors->first('message') }}</span>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10"><p><b style="color: red">*</b>の項目は必須です。</p></div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
