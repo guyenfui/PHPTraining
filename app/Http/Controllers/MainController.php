@@ -101,14 +101,14 @@ class MainController extends Controller
         ];
 
         Mail::send('mail.mail',$data,function($message) use ($data){
-            $message->from('huynm1103@gmail.com','〇〇株式会社');
+            $message->from('otoiawase.test2010@gmail.com','〇〇株式会社');
             $message->to($data['email']);
             $message->subject('お問い合わせを送信しました。');
 
         });
         Mail::send('mail.mailadmin',$data,function($message) use ($data){
-            $message->from('huynm1103@gmail.com','〇〇株式会社');
-            $message->to('huynm1103@gmail.com');
+            $message->from('otoiawase.test2010@gmail.com','〇〇株式会社');
+            $message->to('otoiawase.test2010@gmail.com');
             $message->subject('お問い合わせを受信しました。');
         });
     }
